@@ -1,0 +1,344 @@
+ BASE DE DADOS:
+
+use facebook
+db
+
+ COLLECTION USUARIO:
+
+db.usuarios.insert({nome: "elizandra", sobrenome: "machado", senha: "1234", cpf: "096.230.370-40", idade: 30, email: "elizandra@gmail.com"})
+
+db.usuarios.insert({
+ nome: "paula",
+ sobrenome: "machado"
+ senha: "1234",
+ cpf: "772.578.120-04",
+ idade: 25,
+  email: "paula@gmail.com"
+})
+
+
+db.usuarios.insert({
+nome: "salete",
+sobrenome: "silva",
+senha: "41258",
+cpf: "345.380.640-92",
+idade: 55,
+ email: "salete@hotmail.com"
+})
+
+db.usuarios.insert({
+nome: "maria",
+sobrenome: "nascimento",
+senha: "87912",
+cpf: "828.232.310-13",
+idade: 35,
+email: "maria@hotmail.com"
+ })
+
+db.usuarios.insert({
+nome: "Emilio",
+sobrenome: "Rodriguez",
+senha: "5648",
+cpf: "616.901.260-94",
+idade: 20
+})
+
+
+
+LISTAR DADOS DA COLLECTION USUARIOS:
+db.usuarios.find().pretty()
+
+RESULTADO:
+
+{
+ "_id" : ObjectId("60d64a00e12c7a2a0b057500"),
+"nome" : "elizandra",
+ "sobrenome" : "machado",
+"senha" : "1234",
+"cpf" : "096.230.370-40",
+"idade" : 30,
+"email" : "elizandra@gmail.com"
+}
+{
+"_id" : ObjectId("60d64b4ee12c7a2a0b057501"),
+"nome" : "paula",
+ "sobrenome" : "machado",
+ "senha" : "1234",
+ "cpf" : "772.578.120-04",
+ "idade" : 25,
+"email" : "paula@gmail.com"
+}
+{
+"_id" : ObjectId("60d64b9ae12c7a2a0b057502"),
+"nome" : "salete",
+"sobrenome" : "silva",
+"senha" : "41258",
+"cpf" : "345.380.640-92",
+"idade" : 55,
+"email" : "salete@hotmail.com"
+}
+{
+"_id" : ObjectId("60d64bd6e12c7a2a0b057503"),
+"nome" : "maria",
+"sobrenome" : "nascimento",
+"senha" : "87912",
+"cpf" : "828.232.310-13",
+"idade" : 35,
+"email" : "maria@hotmail.com"
+}
+{
+"_id" : ObjectId("60d64c2ce12c7a2a0b057504"),
+"nome" : "Emilio",
+"sobrenome" : "Rodriguez",
+"senha" : "5648",
+"cpf" : "616.901.260-94",
+"idade" : 20
+}
+
+CONSULTA COM $AND
+
+>db.usuarios.find({ $and: [ {idade: { $lt: 30}}, {email: { $exists: false}}]}).pretty()
+
+RESULTADO:
+
+{
+"_id" : ObjectId("60d64c2ce12c7a2a0b057504"),
+"nome" : "Emilio",
+"sobrenome" : "Rodriguez",
+"senha" : "5648",
+"cpf" : "616.901.260-94",
+"idade" : 20
+}
+
+
+ATUALIZAÇÃO CAMPO SOBRENOME EM COLLECTION USUARIOS PARA IDADE $LTE: 25
+
+> db.usuarios.updateMany( {"idade": { $lte : 25}}, { $set: { "sobrenome" : "Perez" } } )
+
+Resultado:
+> db.usuarios.find().pretty()
+{
+"_id" : ObjectId("60d64a00e12c7a2a0b057500"),
+"nome" : "elizandra",
+"sobrenome" : "machado",
+"senha" : "1234",
+"cpf" : "096.230.370-40",
+"idade" : 30,
+"email" : "elizandra@gmail.com"
+}
+{
+"_id" : ObjectId("60d64b4ee12c7a2a0b057501"),
+"nome" : "paula",
+"sobrenome" : "Perez",
+"senha" : "1234",
+"cpf" : "772.578.120-04",
+"idade" : 25,
+"email" : "paula@gmail.com"
+}
+{
+"_id" : ObjectId("60d64b9ae12c7a2a0b057502"),
+"nome" : "salete",
+"sobrenome" : "silva",
+"senha" : "41258",
+"cpf" : "345.380.640-92",
+"idade" : 55,
+"email" : "salete@hotmail.com"
+}
+{"_id" : ObjectId("60d64bd6e12c7a2a0b057503"),"nome" : "maria","sobrenome" : "nascimento","senha" : "87912","cpf" : "828.232.310-13","idade" : 35,"email" : "maria@hotmail.com"
+}
+{
+"_id" : ObjectId("60d64c2ce12c7a2a0b057504"),
+"nome" : "Emilio",
+"sobrenome" : "Perez",
+"senha" : "5648",
+"cpf" : "616.901.260-94",
+"idade" : 20
+}
+>
+
+CRIAÇÃO COLLECTION POSTS:
+
+db.posts.insert({tipo: "video", url: "http://facebook.com/video1", titulo: "trabalho home office", comentarios: [ {comentario: "Eu quero", cpf: "772.578.120-04"}, {comentario: "UP", cpf: "345.380.640-92"}]})
+
+db.posts.insert({tipo: "video", url: "http://facebook.com/video2", titulo: "desenvolvimento web", comentarios: [ {comentario: "Eu quero", cpf: "772.578.120-04"}, {comentario: "UP", cpf: "345.380.640-92"}]})
+
+db.posts.insert({tipo: "foto", url: "http://facebook.com/foto1", titulo: "Praia!!!", comentarios: [ {comentario: "Amei", cpf: "929.406.280-50"}, {comentario: "Gostei demais", cpf: "929.406.280-50"}]})
+
+db.posts.insert({tipo: "foto", url: "http://facebook.com/foto2", titulo: "Domingo de Churrasco", comentarios: [ {comentario: "Delicia", cpf: "140.414.810-82"}, {comentario: "Convida", cpf: "714.390.940-80"}]})
+
+LISTAR DADOS UTILIZANDO A OPERAÇÃO FIND() E ALGUMA OPERAÇÃO ADICIONAL
+
+> db.posts.find( {comentarios: {$elemMatch: { comentario: "Eu quero"}}}).pretty()
+
+RESULTADO:
+
+> db.posts.find( {comentarios: {$elemMatch: { comentario: "Eu quero"}}}).pretty(
+)
+{
+"_id" : ObjectId("60d653fce12c7a2a0b057505"),
+"tipo" : "video",
+"url" : "http://facebook.com/video1",
+"titulo" : "trabalho home office",
+"comentarios" : [
+ {
+"comentario" : "Eu quero",
+"cpf" : "772.578.120-04"
+},
+{
+ "comentario" : "UP",
+"cpf" : "345.380.640-92"
+}
+]
+}
+{
+"_id" : ObjectId("60d65471e12c7a2a0b057506"),
+"tipo" : "video",
+ "url" : "http://facebook.com/video2",
+"titulo" : "desenvolvimento web",
+"comentarios" : [
+ {
+ "comentario" : "Eu quero",
+"cpf" : "772.578.120-04"
+},
+ {
+"comentario" : "UP",
+"cpf" : "345.380.640-92"
+}
+]
+}
+
+CRIAÇÃO COLLECTION GRUPOS:
+
+db.grupos.insert({nome: "Amigos Academia", usuarios: [ {cpf:"772.578.120-04"}, {cpf:"345.380.640-92"}, {cpf:"929.406.280-50"},  ]})
+
+db.grupos.insert({nome: "Familia", usuarios: [ {cpf:"096.230.370-40"}, {cpf:"772.578.120-04"}, {cpf:"345.380.640-92"}, {cpf:"714.390.940-80"} ]})
+
+db.grupos.insert({nome: "Vizinhança", usuarios: [ {cpf:"668.547.230-86"}, {cpf:"338.501.790-44"}, {cpf:"012.106.600-24"}, {cpf:"932.252.680-70"}, {cpf:"152.644.760-63"}, {cpf:"689.513.230-99"} ]})
+
+LISTAR DADOS UTILIZANDO A OPERAÇÃO FIND() E ALGUMA OPERAÇÃO ADICIONAL
+db.grupos.find({"usuarios": { $size: 6 }}).pretty()
+
+RESULTADO:
+{
+"_id" : ObjectId("60d659bee12c7a2a0b05750b"),
+"nome" : "Vizinhança",
+ "usuarios" : [
+{
+"cpf" : "668.547.230-86"
+},
+{
+"cpf" : "338.501.790-44"
+},
+ {
+"cpf" : "012.106.600-24"
+},
+{
+ "cpf" : "932.252.680-70"
+},
+{
+"cpf" : "152.644.760-63"
+ },
+ {
+"cpf" : "689.513.230-99"
+}
+]
+}
+
+
+
+CRIAÇÃO COLLECTION AMIGOS:
+
+db.amigos.insert({cpf: "096.230.370-40", amigos: [{cpf: "055.920.780-80", nome: "Ana", sobrenome: "Souza"}, {cpf: "387.005.000-46", nome: "Paulo", sobrenome: "Sousa"}
+]})
+
+db.amigos.insert({cpf: "772.578.120-04", amigos: [{cpf: "068.837.010-10", nome: "Lucas", sobrenome: "Oliveira"}]})
+
+LISTAR DADOS UTILIZANDO A OPERAÇÃO FIND()
+db.amigos.find().pretty()
+
+RESULTADO:
+{
+"_id" : ObjectId("60d65e26e12c7a2a0b05750c"),
+"cpf" : "096.230.370-40",
+"amigos" : [
+{
+"cpf" : "055.920.780-80",
+"nome" : "Ana",
+ "sobrenome" : "Souza"
+ },
+{
+"cpf" : "387.005.000-46",
+"nome" : "Paulo",
+"sobrenome" : "Sousa"
+}
+]
+}
+{
+"_id" : ObjectId("60d65e85e12c7a2a0b05750d"),
+"cpf" : "772.578.120-04",
+"amigos" : [
+ {
+ "cpf" : "068.837.010-10",
+  "nome" : "Lucas",
+ "sobrenome" : "Oliveira"
+}
+ ]
+}
+
+
+
+DELETAR UM DOCUMENTO DA COLLECTION
+
+db.amigos.deleteOne( { "_id" : ObjectId("60d65e85e12c7a2a0b05750d") } )
+
+RESULTADO:
+{ "acknowledged" : true, "deletedCount" : 1 }
+
+
+DELETAR UMA COLLECTION E VERIFICAR QUE TODOS OS DOCUMENTOS FORAM DELETADOS TAMBEM:
+
+1) Lista das collections
+> show collections
+amigos
+grupos
+posts
+usuarios
+
+2) Lista dos documentos collection AMIGOS
+
+> db.amigos.find().pretty()
+{
+"_id" : ObjectId("60d65e26e12c7a2a0b05750c"),
+"cpf" : "096.230.370-40",
+"amigos" : [
+{
+"cpf" : "055.920.780-80",
+"nome" : "Ana",
+"sobrenome" : "Souza"
+},
+{
+ "cpf" : "387.005.000-46",
+"nome" : "Paulo",
+"sobrenome" : "Sousa"
+}
+]
+}
+>
+
+3) Deletando os documentos da collection AMIGOS
+
+db.amigos.remove( { } )
+
+4) Deletando a collection AMIGOS
+
+db.amigos.drop()
+
+RESULTADO:
+true
+
+5) CONFERINDO ELIMINAÇÃO DA COLLECTION AMIGOS
+> show collections
+grupos
+posts
+usuarios
+>
